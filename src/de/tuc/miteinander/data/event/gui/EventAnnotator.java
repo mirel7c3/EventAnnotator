@@ -15,14 +15,11 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
@@ -83,7 +80,7 @@ public class EventAnnotator {
 	 */
 	protected void createContents() {
 		shlEventannotator = new Shell();
-		shlEventannotator.setSize(600, 600);
+		shlEventannotator.setSize(621, 620);
 		shlEventannotator.setText("EventAnnotator");
 		shlEventannotator.setLayout(new GridLayout(4, false));
 		
@@ -99,10 +96,12 @@ public class EventAnnotator {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(shlEventannotator, SWT.OPEN);
-				   dialog.setFilterExtensions(new String [] {"*.mp4"});
+				   dialog.setFilterExtensions(new String [] {"*.mp4","*.*"});
 				   dialog.setFilterPath("c:\\temp");
 				   String result = dialog.open();
-				   videoText.setText(result);
+				   if (result!=null) { 
+					   videoText.setText(result);
+				   }
 			}
 		});
 		btnLoad.setText("Load");
@@ -367,7 +366,7 @@ public class EventAnnotator {
 		
 		consoleText = new Text(shlEventannotator, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
 		consoleText.setEditable(false);
-		GridData gd_consoleText = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2);
+		GridData gd_consoleText = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 3);
 		gd_consoleText.heightHint = 63;
 		consoleText.setLayoutData(gd_consoleText);
 		
@@ -397,7 +396,36 @@ public class EventAnnotator {
 			    }
 			}
 		});
-		btnSaveToLogfile.setText("Save to logfile");
+		btnSaveToLogfile.setText("Save Log");
+		
+		Button btnLoadLog = new Button(shlEventannotator, SWT.NONE);
+		btnLoadLog.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				 FileDialog dialog = new FileDialog(shlEventannotator, SWT.OPEN);
+				    dialog
+				        .setFilterNames(new String[] { "Log Files", "All Files (*.*)" });
+				    dialog.setFilterExtensions(new String[] { "*.log", "*.*" });
+				    dialog.setFilterPath("~/");
+				    String filename = dialog.open();
+				    
+				    if (filename != null){
+					    Path file = Paths.get(filename);
+					    
+					    consoleText.setText("");
+					    
+					    try (BufferedReader reader = Files.newBufferedReader(file)) {
+					        String line = null;
+					        while ((line = reader.readLine()) != null) {
+					           consoleText.append(line+"\n");
+					        }
+					    } catch (IOException x) {
+					        System.err.format("IOException: %s%n", x);
+					    }
+				    }
+			}
+		});
+		btnLoadLog.setText("Load Log");
 		
 		Button btnClear = new Button(shlEventannotator, SWT.NONE);
 		btnClear.addSelectionListener(new SelectionAdapter() {
