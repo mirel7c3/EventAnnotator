@@ -45,6 +45,7 @@ public class EventAnnotator {
 	private Text movieStartTimeText;
 	private Text consoleText;
 	private Text videoText;
+	private Text userDescriptionText;
 
 	/**
 	 * Launch the application.
@@ -246,30 +247,52 @@ public class EventAnnotator {
 		
 		Group grpUser = new Group(shlEventannotator, SWT.NONE);
 		grpUser.setText("User");
-		grpUser.setLayout(new GridLayout(4, false));
+		grpUser.setLayout(new GridLayout(8, false));
 		grpUser.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1));
 		
-		Label lblUserId = new Label(grpUser, SWT.NONE);
+		Group grpCreateUser = new Group(grpUser, SWT.NONE);
+		grpCreateUser.setText("create User");
+		grpCreateUser.setLayout(new GridLayout(3, false));
+		grpCreateUser.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 8, 1));
+		
+		Label lblUserId = new Label(grpCreateUser, SWT.NONE);
 		lblUserId.setText("User ID:");
 		
-		Spinner idSpinner = new Spinner(grpUser, SWT.BORDER);
+		Spinner idSpinner = new Spinner(grpCreateUser, SWT.BORDER);
+		new Label(grpCreateUser, SWT.NONE);
+		
+		Label lblType = new Label(grpCreateUser, SWT.NONE);
+		lblType.setText("Type:");
+		
+		Combo userTypeCombo = new Combo(grpCreateUser, SWT.NONE);
+		userTypeCombo.setItems(UserType.getTypeNames());
+		userTypeCombo.select(0);
+		new Label(grpCreateUser, SWT.NONE);
+		
+		Label lblUserDescription = new Label(grpCreateUser, SWT.NONE);
+		lblUserDescription.setText("User Description:");
+		
+		userDescriptionText = new Text(grpCreateUser, SWT.BORDER);
+		userDescriptionText.setToolTipText("Some text that helps you to identify the person");
+		userDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Button btnCreateUser = new Button(grpCreateUser, SWT.NONE);
+		
+		btnCreateUser.setText("Create User");
 		
 		Label lblFormerIds = new Label(grpUser, SWT.NONE);
 		lblFormerIds.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblFormerIds.setText("Former IDs:");
+		lblFormerIds.setText("Select User:");
 		
-		Combo formerIDCombo = new Combo(grpUser, SWT.NONE);
-		formerIDCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		formerIDCombo.select(0);
-		
-		Label lblType = new Label(grpUser, SWT.NONE);
-		lblType.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblType.setText("Type:");
-		
-		Combo userTypeCombo = new Combo(grpUser, SWT.NONE);
-		userTypeCombo.setItems(UserType.getTypeNames());
-		userTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-		userTypeCombo.select(0);
+		Combo selectUserCombo = new Combo(grpUser, SWT.NONE);
+		selectUserCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		selectUserCombo.select(0);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
 		
 		Label lblInteraction = new Label(grpUser, SWT.NONE);
 		lblInteraction.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -277,8 +300,14 @@ public class EventAnnotator {
 		
 		Combo userInteractionCombo = new Combo(grpUser, SWT.NONE);
 		userInteractionCombo.setItems(InteractionType.getInteractionNames());
-		userInteractionCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		userInteractionCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		userInteractionCombo.select(0);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
 		
 		Label lblPosition = new Label(grpUser, SWT.NONE);
 		lblPosition.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -286,8 +315,13 @@ public class EventAnnotator {
 		
 		Combo userPositionCombo = new Combo(grpUser, SWT.NONE);
 		userPositionCombo.setItems(new String[] {"K1", "K2", "L1", "L2", "R1", "R2"});
-		userPositionCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		userPositionCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		userPositionCombo.select(0);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
+		new Label(grpUser, SWT.NONE);
 		new Label(grpUser, SWT.NONE);
 		new Label(grpUser, SWT.NONE);
 		new Label(grpUser, SWT.NONE);
@@ -296,23 +330,40 @@ public class EventAnnotator {
 		addUserBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				currentEventText.append(" user "+idSpinner.getText() + " " +
-				userTypeCombo.getText() + " " +
-				userInteractionCombo.getText() + " " +
-				userPositionCombo.getText());
-				
+				currentEventText.append(" "+
+					extractUserData(selectUserCombo.getText()) +
+					userInteractionCombo.getText() + " " +
+					userPositionCombo.getText());
+
+			}
+
+			private String extractUserData(String text) {
+				return text.split("–")[0];
+			}
+		});
+		addUserBtn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 6, 1));
+		addUserBtn.setText("Add");
+		new Label(shlEventannotator, SWT.NONE);
+		new Label(shlEventannotator, SWT.NONE);
+		new Label(shlEventannotator, SWT.NONE);
+		new Label(shlEventannotator, SWT.NONE);
+		
+		btnCreateUser.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
 				boolean contained = false;
-				for (String s:formerIDCombo.getItems()) {
+				
+				String potNewUser = "user "+idSpinner.getText()+" "+userTypeCombo.getText()+" – "+userDescriptionText.getText();
+				
+				for (String s:selectUserCombo.getItems()) {
 					if (s.equals(idSpinner.getText())) contained = true;
 				}
 				if (!contained) {
-					formerIDCombo.add(idSpinner.getText());
-//					formerIDCombo.
+					selectUserCombo.add(potNewUser);
 				}
+					
 			}
 		});
-		addUserBtn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		addUserBtn.setText("Add");
 		
 		Group grpAppstate = new Group(shlEventannotator, SWT.NONE);
 		grpAppstate.setLayout(new GridLayout(2, false));
