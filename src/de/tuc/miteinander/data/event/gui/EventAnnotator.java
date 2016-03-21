@@ -199,8 +199,10 @@ public class EventAnnotator {
 			      while ((lsString = bufferedReader.readLine()) != null) {
 			    	  result+=lsString;
 			      }
+			      
 			      if (result.contains(".")) {
-			    	  result=result.substring(0,result.indexOf("."));
+			    	  Double d = Double.valueOf(result);
+			    	  result=""+d.intValue();
 			      }
 			      playtimeText.setText(result);
 			    }
