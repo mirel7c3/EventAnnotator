@@ -33,7 +33,9 @@ public class UserEvent extends TimeEvent {
 		// look for user number e.g. user 11
 		if (payload.contains("user")) {
 			int pos = payload.indexOf("user")+4;
-			setUserNumber(Integer.parseInt(payload.substring(pos, pos+2).trim()));
+			int userNumber = Integer.parseInt(payload.substring(pos, pos+3).trim());
+			//System.out.println(userNumber+"");
+			setUserNumber(userNumber);
 		}
 		else setUserNumber(-1);
 		

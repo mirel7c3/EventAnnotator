@@ -6,34 +6,44 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 
-import de.tuc.miteinander.data.event.model.StateChangeEvent;
 import de.tuc.miteinander.data.event.model.TimeEvent;
-import de.tuc.miteinander.data.event.model.UserEvent;
 
 public class Tester {
 
 	public static void main(String[] args) {
+
+		ArrayList<TimeEvent> events = EventImport.importEvents("/users/storz/Dropbox/medientage_2014_2.log");
 		
-		ArrayList<String> logLines = readLog("/users/storz/Dropbox/medientage_2014.log");
+		ArrayList<String> dataLines = EventDataWriter.getDataString(events, 1, false, true);
 		
-		ArrayList<TimeEvent> timeEvents = new ArrayList<TimeEvent>();
-		for (String line:logLines) {
-			//System.out.println(line);
-			if (line.contains("user")) {
-				timeEvents.add(new UserEvent(line));
-			}
-			else {
-				timeEvents.add(new StateChangeEvent(line));
-			}
-		}
+		EventDataWriter.writeData("./data/medientage_2014_app.dat", dataLines);
 		
-		Collections.sort(timeEvents, new EventComparator());
+		dataLines.clear();
 		
-		for (TimeEvent t:timeEvents) {
-			System.out.println(t.getDate());
-		}
+		dataLines = EventDataWriter.getDataString(events, 1, true, false);
+		
+		EventDataWriter.writeData("./data/medientage_2014_user.dat", dataLines);
+		
+		//		
+//		ArrayList<String> logLines = readLog("/users/storz/Dropbox/medientage_2014.log");
+//		
+//		ArrayList<TimeEvent> timeEvents = new ArrayList<TimeEvent>();
+//		for (String line:logLines) {
+//			//System.out.println(line);
+//			if (line.contains("user")) {
+//				timeEvents.add(new UserEvent(line));
+//			}
+//			else {
+//				timeEvents.add(new StateChangeEvent(line));
+//			}
+//		}
+//		
+//		Collections.sort(timeEvents, new EventComparator());
+//		
+//		for (TimeEvent t:timeEvents) {
+//			System.out.println(t.getDate());
+//		}
 		 
 //		StateChangeEvent sce = new StateChangeEvent("2014-09-22 13:59:58,856 INFO  changed to CompareScene at 1411387198856");
 //		
