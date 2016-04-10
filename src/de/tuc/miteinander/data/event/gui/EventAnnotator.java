@@ -81,7 +81,7 @@ public class EventAnnotator {
 	 */
 	protected void createContents() {
 		shlEventannotator = new Shell();
-		shlEventannotator.setSize(621, 620);
+		shlEventannotator.setSize(621, 771);
 		shlEventannotator.setText("EventAnnotator");
 		shlEventannotator.setLayout(new GridLayout(4, false));
 		
@@ -418,7 +418,6 @@ public class EventAnnotator {
 		new Label(shlEventannotator, SWT.NONE);
 		
 		consoleText = new Text(shlEventannotator, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
-		consoleText.setEditable(false);
 		GridData gd_consoleText = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 3);
 		gd_consoleText.heightHint = 63;
 		consoleText.setLayoutData(gd_consoleText);

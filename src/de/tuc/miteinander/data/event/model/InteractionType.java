@@ -1,7 +1,7 @@
 package de.tuc.miteinander.data.event.model;
 
 public enum InteractionType {
-	NEW("new"),LEFT("left"),WINS("wins"),RETURNS("returns");
+	NEW("new"),LEFT("left"),WINS("wins"),RETURNS("returns"), CHANGES_TO("changes to");
 	
 	private String interactionName;
 	

@@ -1,7 +1,7 @@
 package de.tuc.miteinander.data.event.model;
 
 public enum AppState {
-	COMPARE("CompareScene"),PONG("PongScene"),MENU("Menu"),AIRHOCKEY("AirHockey"),TRAILS("TouchTrails"),FLUID("FluidParticles"),WATER("Water"),OFFLINE("offline");
+	COMPARE("CompareScene"),PONG("PongScene"),MENU("Menu"),AIRHOCKEY("AirHockey"),TRAILS("TouchTrails"),FLUID("FluidParticles"),WATER("Water"),OFFLINE("offline"), PHYSICS("Physics"), EARTH("Earth"), DRAW("Draw"), MODEL("3D Model"), NOCAM("no camera"),;
 	
 	
 	public String title;

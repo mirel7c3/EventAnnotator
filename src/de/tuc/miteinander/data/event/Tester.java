@@ -13,17 +13,17 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-		ArrayList<TimeEvent> events = EventImport.importEvents("/users/storz/Dropbox/medientage_2014_2.log");
+		ArrayList<TimeEvent> events = EventImport.importEvents("/users/storz/Dropbox/mt_logs/medientage_2013.log");
 		
 		ArrayList<String> dataLines = EventDataWriter.getDataString(events, 1, false, true);
 		
-		EventDataWriter.writeData("./data/medientage_2014_app.dat", dataLines);
+		EventDataWriter.writeData("./data/medientage_2013_app.dat", dataLines);
 		
 		dataLines.clear();
 		
 		dataLines = EventDataWriter.getDataString(events, 1, true, false);
 		
-		EventDataWriter.writeData("./data/medientage_2014_user.dat", dataLines);
+		EventDataWriter.writeData("./data/medientage_2013_user.dat", dataLines);
 		
 		//		
 //		ArrayList<String> logLines = readLog("/users/storz/Dropbox/medientage_2014.log");
